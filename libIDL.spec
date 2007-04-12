@@ -1,0 +1,98 @@
+%define api_version	2
+%define lib_major	0
+%define lib_name	%mklibname IDL %{api_version} %{lib_major}
+
+Summary:	IDL parsing library
+Name:		libIDL
+Version: 0.8.8
+Release:	%mkrel 1
+URL:		http://orbit-resource.sf.net/
+License:	LGPL
+Group:		System/Libraries
+BuildRoot:	%{_tmppath}/%{name}-%{version}-buildroot
+
+Source:		http://ftp.gnome.org/pub/GNOME/sources/%{name}/%{name}-%{version}.tar.bz2
+
+BuildConflicts: ORBit-devel < 0.5.10
+BuildRequires:	flex bison pkgconfig
+BuildRequires:  libglib2.0-devel
+
+%description
+libIDL is a small library for creating parse trees of CORBA v2.2
+compliant Interface Definition Language (IDL) files, which is a
+specification for defining interfaces which can be used between
+different CORBA implementations.
+
+%package -n %{lib_name}
+Summary:	%{summary}
+Group:		%{group}
+Provides:	%{name} = %{version}-%{release}
+Provides:	%{name}%{api_version} = %{version}-%{release}
+
+%description -n %{lib_name}
+libIDL is a small library for creating parse trees of CORBA v2.2
+compliant Interface Definition Language (IDL) files, which is a
+specification for defining interfaces which can be used between
+different CORBA implementations.
+
+%package -n %{lib_name}-devel
+Summary:	Header files and libraries needed for libIDL development
+Group:		Development/C
+Conflicts:	ORBit-devel < 0.5.10
+Provides:	%{name}-devel = %{version}-%{release}
+Provides:	%{name}%{api_version}-devel = %{version}-%{release}
+Requires:	%{lib_name} = %{version}
+Requires:   glib2-devel
+Requires(post,preun): info-install
+
+%description -n %{lib_name}-devel
+This package includes the header files and libraries needed for
+developing or compiling programs using libIDL.
+
+%prep
+%setup -q
+touch *
+
+%build
+
+%configure2_5x
+
+%make
+
+%install
+rm -rf %{buildroot}
+
+%makeinstall_std
+%multiarch_binaries %buildroot%_bindir/*-config*
+
+%post -n %{lib_name} -p /sbin/ldconfig
+
+%postun -n %{lib_name} -p /sbin/ldconfig
+
+%post -n %{lib_name}-devel
+%_install_info %{name}2.info
+
+%preun -n %{lib_name}-devel
+%_remove_install_info %{name}2.info
+
+%clean
+rm -rf %{buildroot}
+
+%files -n %{lib_name}
+%defattr(-,root,root)
+%doc AUTHORS README NEWS BUGS ChangeLog
+%{_libdir}/lib*.so.*
+
+%files -n %{lib_name}-devel
+%defattr(-,root,root)
+%doc tstidl.c
+%{_bindir}/libIDL-config-2
+%{_bindir}/*/libIDL-config-2
+%{_includedir}/*
+%{_infodir}/*.info*
+%{_libdir}/lib*.la
+%{_libdir}/lib*.a
+%{_libdir}/lib*.so
+%{_libdir}/pkgconfig/*
+
+
