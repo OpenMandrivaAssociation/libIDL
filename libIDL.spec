@@ -1,10 +1,11 @@
 %define api_version	2
 %define lib_major	0
 %define lib_name	%mklibname IDL %{api_version} %{lib_major}
+%define develname %mklibname -d  IDL %{api_version}
 
 Summary:	IDL parsing library
 Name:		libIDL
-Version: 0.8.8
+Version: 0.8.9
 Release:	%mkrel 1
 URL:		http://orbit-resource.sf.net/
 License:	LGPL
@@ -35,7 +36,7 @@ compliant Interface Definition Language (IDL) files, which is a
 specification for defining interfaces which can be used between
 different CORBA implementations.
 
-%package -n %{lib_name}-devel
+%package -n %develname
 Summary:	Header files and libraries needed for libIDL development
 Group:		Development/C
 Conflicts:	ORBit-devel < 0.5.10
@@ -44,8 +45,9 @@ Provides:	%{name}%{api_version}-devel = %{version}-%{release}
 Requires:	%{lib_name} = %{version}
 Requires:   glib2-devel
 Requires(post,preun): info-install
+Obsoletes: %mklibname -d  IDL 2 0
 
-%description -n %{lib_name}-devel
+%description -n %develname
 This package includes the header files and libraries needed for
 developing or compiling programs using libIDL.
 
@@ -69,10 +71,10 @@ rm -rf %{buildroot}
 
 %postun -n %{lib_name} -p /sbin/ldconfig
 
-%post -n %{lib_name}-devel
+%post -n %develname
 %_install_info %{name}2.info
 
-%preun -n %{lib_name}-devel
+%preun -n %develname
 %_remove_install_info %{name}2.info
 
 %clean
@@ -81,9 +83,9 @@ rm -rf %{buildroot}
 %files -n %{lib_name}
 %defattr(-,root,root)
 %doc AUTHORS README NEWS BUGS ChangeLog
-%{_libdir}/lib*.so.*
+%{_libdir}/libIDL-%{api_version}.so.%{lib_major}*
 
-%files -n %{lib_name}-devel
+%files -n %develname
 %defattr(-,root,root)
 %doc tstidl.c
 %{_bindir}/libIDL-config-2
