@@ -6,13 +6,15 @@
 Summary:	IDL parsing library
 Name:		libIDL
 Version: 0.8.9
-Release:	%mkrel 1
+Release:	%mkrel 2
 URL:		http://orbit-resource.sf.net/
 License:	LGPL
 Group:		System/Libraries
 BuildRoot:	%{_tmppath}/%{name}-%{version}-buildroot
 
-Source:		http://ftp.gnome.org/pub/GNOME/sources/%{name}/%{name}-%{version}.tar.bz2
+Source0:	http://ftp.gnome.org/pub/GNOME/sources/%{name}/%{name}-%{version}.tar.bz2
+# (fc) 0.8.9-2mdv fix ORBit2 build with gcc4.2 (SVN)
+Patch0:		libIDL-0.8.9-fixgcc42.patch
 
 BuildConflicts: ORBit-devel < 0.5.10
 BuildRequires:	flex bison pkgconfig
@@ -53,7 +55,7 @@ developing or compiling programs using libIDL.
 
 %prep
 %setup -q
-touch *
+%patch0 -p1 -b .gcc42
 
 %build
 
