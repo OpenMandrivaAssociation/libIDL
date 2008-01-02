@@ -10,6 +10,7 @@ Release:	%mkrel 2
 URL:		http://orbit-resource.sf.net/
 License:	LGPL
 Group:		System/Libraries
+BuildRoot:	%{_tmppath}/%{name}-%{version}-buildroot
 
 Source0:	http://ftp.gnome.org/pub/GNOME/sources/%{name}/%{name}-%{version}.tar.bz2
 # (fc) 0.8.9-2mdv fix ORBit2 build with gcc4.2 (SVN)
