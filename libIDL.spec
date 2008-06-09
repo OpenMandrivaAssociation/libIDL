@@ -66,9 +66,13 @@ rm -rf %{buildroot}
 %makeinstall_std
 %multiarch_binaries %buildroot%_bindir/*-config*
 
+%if %mdkversion < 200900
 %post -n %{lib_name} -p /sbin/ldconfig
+%endif
 
+%if %mdkversion < 200900
 %postun -n %{lib_name} -p /sbin/ldconfig
+%endif
 
 %post -n %develname
 %_install_info %{name}2.info
