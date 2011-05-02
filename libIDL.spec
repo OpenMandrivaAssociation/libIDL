@@ -6,7 +6,7 @@
 Summary:	IDL parsing library
 Name:		libIDL
 Version: 0.8.14
-Release:	%mkrel 4
+Release:	%mkrel 5
 URL:		http://orbit-resource.sf.net/
 License:	LGPLv2+
 Group:		System/Libraries
