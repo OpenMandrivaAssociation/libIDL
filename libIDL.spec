@@ -6,7 +6,7 @@
 Summary:	IDL parsing library
 Name:		libIDL
 Version: 0.8.14
-Release:	%mkrel 3
+Release:	%mkrel 4
 URL:		http://orbit-resource.sf.net/
 License:	LGPLv2+
 Group:		System/Libraries
@@ -16,7 +16,7 @@ Source0:	http://ftp.gnome.org/pub/GNOME/sources/%{name}/%{name}-%{version}.tar.b
 
 BuildConflicts: ORBit-devel < 0.5.10
 BuildRequires:	flex bison pkgconfig
-BuildRequires:  libglib2.0-devel
+BuildRequires:  glib2-devel
 
 %description
 libIDL is a small library for creating parse trees of CORBA v2.2
@@ -64,6 +64,7 @@ developing or compiling programs using libIDL.
 rm -rf %{buildroot}
 
 %makeinstall_std
+
 %multiarch_binaries %buildroot%_bindir/*-config*
 
 %if %mdkversion < 200900
