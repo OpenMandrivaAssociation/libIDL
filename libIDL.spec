@@ -1,22 +1,21 @@
 %define api_version	2
 %define lib_major	0
 %define lib_name	%mklibname IDL %{api_version} %{lib_major}
-%define develname %mklibname -d  IDL %{api_version}
+%define develname	%mklibname -d  IDL %{api_version}
 
 Summary:	IDL parsing library
 Name:		libIDL
-Version: 0.8.14
-Release:	%mkrel 5
+Version:	0.8.14
+Release:	6
 URL:		http://orbit-resource.sf.net/
 License:	LGPLv2+
 Group:		System/Libraries
-BuildRoot:	%{_tmppath}/%{name}-%{version}-buildroot
-
 Source0:	http://ftp.gnome.org/pub/GNOME/sources/%{name}/%{name}-%{version}.tar.bz2
 
 BuildConflicts: ORBit-devel < 0.5.10
-BuildRequires:	flex bison pkgconfig
-BuildRequires:  glib2-devel
+BuildRequires:	flex
+BuildRequires:	bison
+BuildRequires:	pkgconfig(glib-2.0)
 
 %description
 libIDL is a small library for creating parse trees of CORBA v2.2
@@ -56,7 +55,8 @@ developing or compiling programs using libIDL.
 
 %build
 
-%configure2_5x
+%configure2_5x \
+	--disable-static
 
 %make
 
@@ -65,15 +65,9 @@ rm -rf %{buildroot}
 
 %makeinstall_std
 
+find %{buildroot}%{_libdir} -name '*.la' -type f -delete -print
+
 %multiarch_binaries %buildroot%_bindir/*-config*
-
-%if %mdkversion < 200900
-%post -n %{lib_name} -p /sbin/ldconfig
-%endif
-
-%if %mdkversion < 200900
-%postun -n %{lib_name} -p /sbin/ldconfig
-%endif
 
 %post -n %develname
 %_install_info %{name}2.info
@@ -81,23 +75,16 @@ rm -rf %{buildroot}
 %preun -n %develname
 %_remove_install_info %{name}2.info
 
-%clean
-rm -rf %{buildroot}
-
 %files -n %{lib_name}
-%defattr(-,root,root)
 %doc AUTHORS README NEWS BUGS ChangeLog
 %{_libdir}/libIDL-%{api_version}.so.%{lib_major}*
 
 %files -n %develname
-%defattr(-,root,root)
 %doc tstidl.c
 %{_bindir}/libIDL-config-2
 %{_bindir}/*/libIDL-config-2
 %{_includedir}/*
 %{_infodir}/*.info*
-%{_libdir}/lib*.la
-%{_libdir}/lib*.a
 %{_libdir}/lib*.so
 %{_libdir}/pkgconfig/*
 
