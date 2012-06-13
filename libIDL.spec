@@ -6,13 +6,13 @@
 Summary:	IDL parsing library
 Name:		libIDL
 Version:	0.8.14
-Release:	6
+Release:	7
 URL:		http://orbit-resource.sf.net/
 License:	LGPLv2+
 Group:		System/Libraries
 Source0:	http://ftp.gnome.org/pub/GNOME/sources/%{name}/%{name}-%{version}.tar.bz2
 
-BuildConflicts: ORBit-devel < 0.5.10
+BuildConflicts:	ORBit-devel < 0.5.10
 BuildRequires:	flex
 BuildRequires:	bison
 BuildRequires:	pkgconfig(glib-2.0)
@@ -35,18 +35,17 @@ compliant Interface Definition Language (IDL) files, which is a
 specification for defining interfaces which can be used between
 different CORBA implementations.
 
-%package -n %develname
+%package -n %{develname}
 Summary:	Header files and libraries needed for libIDL development
 Group:		Development/C
 Conflicts:	ORBit-devel < 0.5.10
 Provides:	%{name}-devel = %{version}-%{release}
 Provides:	%{name}%{api_version}-devel = %{version}-%{release}
 Requires:	%{lib_name} = %{version}
-Requires:   glib2-devel
-Requires(post,preun): info-install
-Obsoletes: %mklibname -d  IDL 2 0
+Requires:	glib2-devel
+Obsoletes:	%{mklibname -d  IDL 2 0}
 
-%description -n %develname
+%description -n %{develname}
 This package includes the header files and libraries needed for
 developing or compiling programs using libIDL.
 
@@ -54,7 +53,6 @@ developing or compiling programs using libIDL.
 %setup -q
 
 %build
-
 %configure2_5x \
 	--disable-static
 
@@ -62,24 +60,15 @@ developing or compiling programs using libIDL.
 
 %install
 rm -rf %{buildroot}
-
 %makeinstall_std
 
-find %{buildroot}%{_libdir} -name '*.la' -type f -delete -print
-
-%multiarch_binaries %buildroot%_bindir/*-config*
-
-%post -n %develname
-%_install_info %{name}2.info
-
-%preun -n %develname
-%_remove_install_info %{name}2.info
+%multiarch_binaries %{buildroot}%{_bindir}/*-config*
 
 %files -n %{lib_name}
 %doc AUTHORS README NEWS BUGS ChangeLog
 %{_libdir}/libIDL-%{api_version}.so.%{lib_major}*
 
-%files -n %develname
+%files -n %{develname}
 %doc tstidl.c
 %{_bindir}/libIDL-config-2
 %{_bindir}/*/libIDL-config-2
