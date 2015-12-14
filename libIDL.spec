@@ -1,4 +1,5 @@
 %define url_ver %(echo %{version}|cut -d. -f1,2)
+%define _disable_lto 1
 
 %define api	2
 %define major	0
@@ -8,7 +9,7 @@
 Summary:	IDL parsing library
 Name:		libIDL
 Version:	0.8.14
-Release:	22
+Release:	23
 Url:		http://orbit-resource.sf.net/
 License:	LGPLv2+
 Group:		System/Libraries
