@@ -10,7 +10,7 @@ Summary:	IDL parsing library
 Name:		libIDL
 Version:	0.8.14
 Release:	27
-Url:		http://orbit-resource.sf.net/
+Url:		https://orbit-resource.sf.net/
 License:	LGPLv2+
 Group:		System/Libraries
 Source0:	http://ftp.gnome.org/pub/GNOME/sources/libIDL/%{url_ver}/%{name}-%{version}.tar.bz2
